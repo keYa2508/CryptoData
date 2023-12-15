@@ -1,12 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {ActivityIndicator, FlatList, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import io, {Socket} from 'socket.io-client';
+import io from 'socket.io-client';
 
 interface OrderBookData {
-  bids: {price: number; qty: number}[];
-  asks: {price: number; qty: number}[];
+  bids: {price: number; qty: number; total: number}[];
+  asks: {price: number; qty: number; total: number}[];
 }
 
 const App = () => {
@@ -54,6 +53,26 @@ const App = () => {
             <Text style={{color: 'red', fontSize: 30, fontWeight: '900'}}>
               Asks
             </Text>
+            <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
+              <View style={{width: 120}}>
+                <Text
+                  style={{color: '#2f3030', fontSize: 18, fontWeight: '900'}}>
+                  Price
+                </Text>
+              </View>
+              <View style={{width: 120}}>
+                <Text
+                  style={{color: '#2f3030', fontSize: 18, fontWeight: '900'}}>
+                  Quantity
+                </Text>
+              </View>
+              <View style={{width: 120}}>
+                <Text
+                  style={{color: '#2f3030', fontSize: 18, fontWeight: '900'}}>
+                  Amount
+                </Text>
+              </View>
+            </View>
             <FlatList
               showsVerticalScrollIndicator={false}
               data={orderBookData.asks}
@@ -61,15 +80,17 @@ const App = () => {
                 <View
                   style={{
                     flexDirection: 'row',
+                    alignItems: 'baseline',
                     justifyContent: 'space-between',
                   }}>
-                  <View style={{width: 200}}>
-                    <Text style={{color: 'red'}}>
-                      Quantity: {item.qty.toFixed(5)}
-                    </Text>
+                  <View style={{width: 120}}>
+                    <Text style={{color: 'red'}}>{item.price}</Text>
                   </View>
-                  <View style={{width: 100}}>
-                    <Text style={{color: 'red'}}>Price: {item.price}</Text>
+                  <View style={{width: 120}}>
+                    <Text style={{color: 'red'}}>{item.qty.toFixed(5)}</Text>
+                  </View>
+                  <View style={{width: 120}}>
+                    <Text style={{color: 'red'}}>{item.total.toFixed(5)}</Text>
                   </View>
                 </View>
               )}
@@ -80,6 +101,26 @@ const App = () => {
             <Text style={{color: '#34ed56', fontSize: 30, fontWeight: '900'}}>
               Bids
             </Text>
+            <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
+              <View style={{width: 120}}>
+                <Text
+                  style={{color: '#2f3030', fontSize: 18, fontWeight: '900'}}>
+                  Price
+                </Text>
+              </View>
+              <View style={{width: 120}}>
+                <Text
+                  style={{color: '#2f3030', fontSize: 18, fontWeight: '900'}}>
+                  Quantity
+                </Text>
+              </View>
+              <View style={{width: 120}}>
+                <Text
+                  style={{color: '#2f3030', fontSize: 18, fontWeight: '900'}}>
+                  Amount
+                </Text>
+              </View>
+            </View>
             <FlatList
               showsVerticalScrollIndicator={false}
               data={orderBookData.bids}
@@ -87,15 +128,23 @@ const App = () => {
                 <View
                   style={{
                     flexDirection: 'row',
+                    alignItems: 'baseline',
                     justifyContent: 'space-between',
                   }}>
-                  <View style={{width: 200}}>
+                  <View style={{width: 120}}>
+                    <Text style={{color: '#34ed56'}}>{item.price}</Text>
+                  </View>
+                  <View style={{width: 120}}>
                     <Text style={{color: '#34ed56'}}>
-                      Quantity: {item.qty.toFixed(5)}
+                      {item.qty.toFixed(5)}
                     </Text>
                   </View>
-                  <View style={{width: 100}}>
-                    <Text style={{color: '#34ed56'}}>Price: {item.price}</Text>
+                  <View style={{width: 120}}>
+                    {item.total && (
+                      <Text style={{color: '#34ed56'}}>
+                        {item.total.toFixed(5)}
+                      </Text>
+                    )}
                   </View>
                 </View>
               )}
